@@ -6,13 +6,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../static/output.css">
 </head>
-<body class="bg-gradient-to-bl from-emerald-100 to-amber-200 p-6 font-mono">
+<body class="bg-gradient-to-bl from-emerald-100 to-amber-200 p-6 font-sans text-sm sm:text-md lg:text-base italic">
     
         {% if not admin_verification %}
         <div class="min-h-screen flex flex-col justify-center items-center ">
           
-            <form method="post" action="/verify_admin" id="admin_verification_form" class="sm:w-1/2 flex flex-col gap-3 p-5 bg-slate-50 rounded-lg shadow-lg shadow-gray-800">
-                    <h1 class="text-lg sm:text-xl lg:text-2xl text-gray-900 text-center font-bold">Admin Credentials</h1>
+            <form method="post" action="/verify_admin" id="admin_verification_form" class="w-full sm:w-1/2 flex flex-col gap-3 p-6 bg-slate-50 rounded-lg shadow-lg shadow-gray-800">
+                    <h1 class="text-gray-900 text-center font-bold">Admin Credentials</h1>
                     
                     <div class="flex flex-col gap-0.5" id="password-div">
                         <label for="username">Username</label>
@@ -30,7 +30,7 @@
                     </div>
 
                     {% if not admin_verification %}
-                        <h1 class="mt-3 text-lg sm:text-xl lg:text-2xl text-red-600 text-center font-bold">{{message}}</h1>
+                        <h1 class="mt-3 text-red-600 text-center font-bold">{{message}}</h1>
                     {% endif %}
             </form>
 
@@ -39,45 +39,57 @@
 
         {% else %}
         
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center mt-4 ">Excel Report</h2>
+            <h2 class="text-gray-800 mb-4 text-center mt-4 ">Excel Report</h2>
             
             <div class="mt-16 flex justify-end mb-5 mx-5">
                 <a href="/download_data" class="px-5 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">Download Excel</a>
             </div>
 
-            <div class="mx-5 bg-white shadow-lg rounded-lg p-6 mb-20">
+            <div class="mx-auto bg-white shadow-lg rounded-lg p-6 mb-20">
                 <div class="overflow-x-auto overflow-y-auto max-h-96">
                     <table class="w-full border-collapse">
                         <thead class="sticky top-0">
                             <tr class="bg-gradient-to-r from-emerald-100 to-amber-200 text-gray-700">
                                 <th class="p-3 border">Serial No</th>
-                                <th class="p-3 border">Full Name</th>
-                                <th class="p-3 border">Aadhar</th>
+                                <th class="p-3 border">Application No</th>
                                 <th class="p-3 border">Status</th>
-                                <th class="p-3 border">Account Name</th>
+                                <th class="p-3 border">Aadhar</th>
+                                <th class="p-3 border">Email</th>
+                                <th class="p-3 border">Full Name</th>
+                                <th class="p-3 border">College</th>
+                                <th class="p-3 border">Phone No</th>
+                                <th class="p-3 border">Account Holder</th>
+                                <th class="p-3 border">Account Holder Name</th>
                                 <th class="p-3 border">Account No</th>
                                 <th class="p-3 border">IFSC</th>
                                 <th class="p-3 border">Bank</th>
                                 <th class="p-3 border">Branch</th>
-                                <th class="p-3 border">Phone</th>
-                                <th class="p-3 border">Email</th>
+                                <th class="p-3 border">Linked Phone No</th>
+                                <th class="p-3 border">Gpay/Phonpe/Paytm</th>
+                                <th class="p-3 border">UPI ID</th>
                                 <th class="p-3 border">Created At</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for record in records%}
                             <tr class="hover:bg-gray-200 transition duration-300">
-                                <td class="p-3 border">{{ record.id }}</td>
-                                <td class="p-3 border">{{ record.full_name }}</td>
-                                <td class="p-3 border">{{ record.aadhar_num }}</td>
+                                <td class="p-3 border">{{ record.serial_no }}</td>
+                                <td class="p-3 border">{{ record.application_num }}</td>
                                 <td class="p-3 border">{{ record.status }}</td>
+                                <td class="p-3 border">{{ record.aadhar_num }}</td>
+                                <td class="p-3 border">{{ record.email_id }}</td>
+                                <td class="p-3 border">{{ record.full_name }}</td>
+                                <td class="p-3 border">{{ record.college_name }}</td>
+                                <td class="p-3 border">{{ record.phone_num }}</td>
+                                <td class="p-3 border">{{ record.account_holder }}</td>
                                 <td class="p-3 border">{{ record.name_as_in_passbook }}</td>
                                 <td class="p-3 border">{{ record.account_number }}</td>
                                 <td class="p-3 border">{{ record.ifsc_code }}</td>
                                 <td class="p-3 border">{{ record.bank_name }}</td>
                                 <td class="p-3 border">{{ record.branch }}</td>
                                 <td class="p-3 border">{{ record.linked_phone_num }}</td>
-                                <td class="p-3 border">{{ record.email_id }}</td>
+                                <td class="p-3 border">{{ record.upi_num }}</td>
+                                <td class="p-3 border">{{ record.upi_id }}</td>
                                 <td class="p-3 border">{{ record.created_at.strftime('%Y-%m-%d') }}</td>
                             </tr>
                             {% endfor %}
@@ -89,6 +101,7 @@
         {% endif %}
    
 
+   
 
     <script>
         const adminCredentailsForm = document.getElementById("admin_verification_form");

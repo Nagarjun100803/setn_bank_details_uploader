@@ -42,7 +42,7 @@ def get_not_uploaded_students():
                 from 
                     bank_details as bd
                 where 
-                    bd.aadhar_num = be.aadhar_num
+                    bd.email_id = be.email_id
             )
     """
     email_ids = execute_sql_select_statement(sql)
@@ -55,37 +55,39 @@ def send_email(recipients: list[str], subject: str):
 
     """
     try:
-        action_link = f"{settings.base_url}/verify_aadhar"  # Full verification link
+        action_link = f"{settings.base_url}/verify_email"  # Full verification link
 
         html_content = f"""
-        <html>
-        <body style="font-family: Arial, sans-serif; text-align: center; background-color: #f9f9f9; padding: 20px;">
-            <div style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <h2 style="color: #2c3e50;">⏳ Important Reminder</h2>
-                <p style="color: #555; font-size: 16px;">
-                    Dear Student, <br><br>
-                    We noticed that your bank details are not yet updated. To proceed further with your application, 
-                    please upload your bank details at your earliest convenience.
-                </p>
-                <p style="font-size: 16px; font-weight: bold; color: #333;">
-                    Kindly use the link below to complete your bank details submission.
-                </p>
-                <p>
-                    <a href="{action_link}" style="display: inline-block; padding: 12px 20px; background-color: #28a745; 
-                    color: white; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">
-                        Upload Bank Details
-                    </a>
-                </p>
-                <p style="color: #777; font-size: 14px;">
-                    If you have already completed this step, please ignore this email.
-                </p>
-                <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-                <p style="font-size: 14px; color: gray;">Best regards,<br>SETN Team</p>
-            </div>
-        </body>
-        </html>
-        """
-
+            <html>
+            <body style="font-family: Arial, sans-serif; background: linear-gradient(to bottom right, #d1fae5, #fde68a); padding: 20px; text-align: center;">
+                <div style="max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 12px rgba(0,0,0,0.1);">
+                    <h1 style="text-decoration: underline; font-size: 22px; color: #2c3e50;">Dear Student</h1>
+                    <p style="font-size: 16px; color: #444; text-align: justify; line-height: 1.5;">
+                        As per the instructions on our SETN Scholarship Application form, many students have submitted their bank details by email to 
+                        <span style="color: #6366f1; font-weight: bold; text-decoration: underline;">souengrs@gmail.com</span>. 
+                        However, we are finding it difficult to link the bank details to the respective students.
+                    </p>
+                    <p style="font-size: 16px; color: #444; text-align: justify; line-height: 1.5;">
+                        Hence the beneficiary students are requested to update their bank details on our portal by clicking the following link:
+                    </p>
+                    <p>
+                        <a href="{action_link}" style="display: inline-block; padding: 12px 24px; background-color: #10b981; 
+                        color: white; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                            Update Bank Details
+                        </a>
+                    </p>
+                    <div style="text-align: right; margin-top: 20px; color: #333; font-weight: bold;">
+                        <p>Thanks,</p>
+                        <p>Er KB Neelakantan</p>
+                        <p style="text-decoration: underline;">9840892220</p>
+                        <p>Er SR Balasubramanian</p>
+                        <p style="text-decoration: underline;">9629339454</p>
+                        <p style="font-size: 14px;">Co-Founders, SETN</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+        """ 
         msg = EmailMessage()
         msg["From"] = formataddr(("SETN Support", settings.sender_email))
         msg["To"] = ", ".join(recipients)
@@ -137,7 +139,7 @@ scheduler.start()
 
 class BankDetails(BaseModel):
 
-    aadhar_num: str
+    email_id: str
     name_as_in_passbook: str
     account_number: str
     ifsc_code: str
@@ -146,7 +148,8 @@ class BankDetails(BaseModel):
     linked_phone_num: str
     account_holder: Literal["Self", "Father", "Mother", "Guardian"]
     upi_id: str | None
-    email_id: str
+    upi_num: str
+    
 
 
 class AdminCredentials(BaseModel):
@@ -162,7 +165,7 @@ def test_page():
 
 
 
-@app.get("/verify_aadhar")
+@app.get("/verify_email")
 def get_bank_details_page(request: Request):
     return templates.TemplateResponse("bank_detail_uploader.html", {"request": request})
 
@@ -170,23 +173,23 @@ def get_bank_details_page(request: Request):
 
 
 
-@app.post("/verify_aadhar")
+@app.post("/verify_email")
 def check_aadhar_number_existance(
     request: Request,
-    aadhar_num: str = Form()
+    email_id: str = Form()
 ):
-    context: dict = {"request": request, "verification_status": False, "entered_aadhar_num": aadhar_num}
-    # existing_record = check_aadhar_exists(aadhar_num)
+    context: dict = {"request": request, "verification_status": False, "entered_email_id": email_id}
+
 
     sql: str = """
         select 
             (    
                 select 
-                    1 as aadhar_exist
+                    1 as email_exist
                 from 
                     beneficiaries as be 
                 where 
-                    be.aadhar_num = %(aadhar_num)s
+                    be.email_id = %(email_id)s
             ),
             (        
                 select 
@@ -194,14 +197,14 @@ def check_aadhar_number_existance(
                 from 
                     bank_details as bd 
                 where 
-                    bd.aadhar_num = %(aadhar_num)s
+                    bd.email_id = %(email_id)s
             )
     """
     
-    existing_record = execute_sql_select_statement(sql, {"aadhar_num": aadhar_num}, fetch_all = False)
+    existing_record = execute_sql_select_statement(sql, {"email_id": email_id}, fetch_all = False)
     
-    if not existing_record["aadhar_exist"]:
-        context.update({"message": "Sorry, no record found with this Aadhar Number!"})
+    if not existing_record["email_exist"]:
+        context.update({"message": "Sorry, no record found with this Email Id!"})
 
     elif existing_record["bank_detail_exist"]:
         context.update({"message": "Oops, You already provided your bank details."})
@@ -209,8 +212,7 @@ def check_aadhar_number_existance(
     else:
         context.update({
             "verification_status": True,
-            "entered_aadhar_num": aadhar_num,
-            "message": "Aadhar Exists"
+            "message": "Email exists"
         })
     
     return templates.TemplateResponse("bank_detail_uploader.html", context)
@@ -222,21 +224,41 @@ def create_bank_details(
     request: Request,
     bank_details: BankDetails = Form()
 ):
-    
     context: dict = {"request": request, "message_type": "Info"}
+    
+    # Check if the record already exists with the email_id
+
+    sql: str = """
+        select 
+            *
+        from 
+            bank_details
+        where 
+            email_id = %(email_id)s
+    """
+    vars = {"email_id": bank_details.email_id}
+
+    exisiting_record = execute_sql_select_statement(sql, vars, fetch_all = False)
+
+    if exisiting_record:
+        context.update({"message": "Oops, You already provided your bank details."})
+        return templates.TemplateResponse("message.html", context)
+    
     # Create a new entry.
     create_bank_detail_sql: str = """
         insert into bank_details(
-            aadhar_num, name_as_in_passbook, account_number, ifsc_code,
-            bank_name, branch, account_holder, linked_phone_num, email_id
+            name_as_in_passbook, account_number, ifsc_code,
+            bank_name, branch, account_holder, linked_phone_num, email_id,
+            upi_num, upi_id
         )
         values(
-            %(aadhar_num)s, %(name_as_in_passbook)s, %(account_number)s, %(ifsc_code)s,
-            %(bank_name)s, %(branch)s, %(account_holder)s, %(linked_phone_num)s, %(email_id)s
+            %(name_as_in_passbook)s, %(account_number)s, %(ifsc_code)s,
+            %(bank_name)s, %(branch)s, %(account_holder)s, %(linked_phone_num)s, %(email_id)s,
+            %(upi_num)s, %(upi_id)s
         );
     """
     vars = bank_details.model_dump()
-    # print(create_bank_detail_sql)
+    print(create_bank_detail_sql)
     # print(vars)
     new_record: None = execute_sql_commands(create_bank_detail_sql, vars)
     context.update({"message": "Bank details uploaded successfully."})
@@ -248,14 +270,14 @@ def get_entered_bank_details():
 
     sql: str = """
         select 
-            row_number() over() as id,
+            row_number() over() as serial_no,
             *
         from 
-            beneficiaries as b
+            beneficiaries as be
         join 
             bank_details as bd
         on 
-            b.aadhar_num = bd.aadhar_num
+            be.email_id = bd.email_id
     """
     records = execute_sql_select_statement(sql)
 
@@ -280,7 +302,7 @@ def verify_admin_credentials(
         (admin_credentials.username == settings.admin_username) and
         (admin_credentials.password == settings.admin_password)
     ):
-        print(context)
+        # print(context)
         
         context.update({"message": "Invalid username or password!", "entered_username": admin_credentials.username})
         

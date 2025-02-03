@@ -26,7 +26,7 @@ connection_params_: dict = {
 
 # Create a database pool to create and store the connections.
 db: SimpleConnectionPool = SimpleConnectionPool(
-    minconn = 4, maxconn = 12, **connection_params_ 
+    minconn = 4, maxconn = 12, **connection_params_
 )
 
 
@@ -81,26 +81,31 @@ def execute_sql_commands(
 database_table: str = """
         
         create table if not exists beneficiaries(
+            
             full_name varchar not null,
-            aadhar_num varchar(12) not null unique,
-            status varchar(20) default 'availed',
-            email_id varchar(100) not null
+            aadhar_num varchar(12) not null,
+            status varchar(20) default 'demo',
+            email_id varchar(100) not null unique,
+            phone_num varchar,
+            college_name varchar not null,
+            application_num integer
+
                 
         );
 
 
         create table if not exists bank_details(
             
-            aadhar_num varchar(12) references beneficiaries(aadhar_num) not null, 
+            email_id varchar references beneficiaries(email_id) not null, 
+            account_holder varchar(30) not null,
             name_as_in_passbook varchar not null,
             account_number varchar not null,
             ifsc_code varchar not null,
             bank_name varchar not null,
             branch varchar not null, 
-            account_holder varchar(30) not null,
             linked_phone_num varchar not null,
             upi_id varchar,
-            email_id varchar not null,
+            upi_num varchar(12) not null,
             created_at timestamp not null default 'now()'
         );
 

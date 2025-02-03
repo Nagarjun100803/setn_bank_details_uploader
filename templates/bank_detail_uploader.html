@@ -5,24 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bank Details</title>
     <link rel="stylesheet" href="../static/output.css">
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
 </head>
-<body class="bg-gradient-to-bl from-emerald-100 to-amber-200">
+<body class="bg-gradient-to-bl from-emerald-100 to-amber-200 font-sans text-sm sm:text-md lg:text-base italic">
     
     <div class="min-h-screen flex flex-col justify-center items-center m-5 ">
         
         <div id="full-form" class="bg-slate-50 rounded-lg shadow-lg shadow-gray-900 lg:w-1/2">
             
-            <div id="form" class="font-mono italic flex flex-col gap-2 p-10">
+            <div id="form" class="flex flex-col gap-2 p-10">
 
-                <div class="flex flex-col gap-1 text-start not-italic">
-                    <h1 class="text-lg sm:text-xl text-amber-600 underline font-serif">Instructions!</h1>
-                    <p class="text-sm sm:text-md font-bold">
-                        Thanks to the students for updating the bank details through mail while submitting the financial application.  We are finding difficulties to connect the details to the correct students. Hence we have developed a format which is sent through email and inform beneficiary those who have received through email.
+                <div class="flex flex-col gap-1 text-justify">
+                    <h1 class="mt-2 font-bold text-center text-lg lg:text-xl">Welcome to SETN</h1>
+
+                    <h1 class="underline text-lg lg:text-xl">Dear Students,</h1>
+                    <p>
+                        As per the instructions on our SETN Scholarship Application form, many students have submitted their bank details by email to <span class="text-indigo-500 underline">souengrs@gmail.com</span>.
+                        However, we are finding it difficult to connect the bank details to the respective students. 
+                        Hence the beneficiary students are requested to update their bank details on our portal by clicking the following link.
                     </p>
 
-                    <div class="flex flex-col items-end text-sm sm:text-md text-gray-950 mb-3">
-                        <span class="font-bold">Thanks</span>
+                    <div class="flex flex-col items-end text-gray-950 mb-3 font-bold">
+                        <span class="">Thanks</span>
                         <p class="">Er KB Neelakantan</p>
                         <p class=" underline ">9840892220</p>
                         <p class="">Er SR Balasubramanian</p>
@@ -32,39 +36,47 @@
                 </div>
                 
                 <div id="heading-div">
-                    <h1 class="text-xl text-gray-900 font-bold  text-center sm:text-xl lg:text-2xl">Aadhar verify</h1>
+                    <h1 class="mt-2 text-gray-950 font-bold text-center text-lg lg:text-xl">Email verify</h1>
                 </div>
 
-                <form method="post" action="/verify_aadhar" id="aadhar_verify_form" enctype="multipart/form-data" class="">
+                <form method="post" action="/verify_email" id="email_verify_form" enctype="multipart/form-data" class="">
                     <div class="flex flex-col gap-0.5" id="account_holder_name-div">
-                        <label for="aadhar_num">Aadhar Number</label>
-                        <input required  type="text" name="aadhar_num" maxlength="12" id="aadhar_num" placeholder="123456789012" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md"
+                        <label for="email_id">Email Id</label>
+                        <input required  type="email" name="email_id" id="email_id" placeholder="arjun1@gmail.com" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md"
                         >
-                        <small id="aadhar_num_error_msg" class="text-red-500 hidden"></small>
+                        <!-- <small id="aadhar_num_error_msg" class="text-red-500 hidden"></small> -->
                     </div>
         
                     <div class="flex flex-col mt-3 sm:mt-4 sm:col-span-2">
-                        <button class="bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg px-14 py-3" type="submit" id="aadhar_verify_submit_button">Continue</button>
+                        <button class="bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg px-14 py-3" type="submit" id="email_verify_submit_button">Continue</button>
                     </div>
 
                     {% if verification_status %}
-                        <h1 class="mt-2 text-lg sm:text-xl lg:text-2xl text-center font-bold text-green-600">{{message}}</h1>
+                        <h1 class="mt-2 font-bold text-center text-lg lg:text-xl text-green-600">{{message}}</h1>
                     {% endif %}
-
-
-                    
+   
                 </form>
                 {% if not verification_status %}
                     <div>
-                        <h1 class="text-lg sm:text-xl lg:text-2xl text-center font-bold text-red-600 not-italic">{{message}}</h1>
+                        <h1 class="font-bold text-center text-lg lg:text-xl text-red-600">{{message}}</h1>
                     </div>
-                {% else%}
 
+                {% else %}
                 <div id="heading-div">
-                    <h1 class="text-xl text-gray-900 font-bold  text-center sm:text-xl lg:text-2xl mt-5 not-italic">Bank Details</h1>
+                    <h1 class="text-gray-950 font-bold  text-center  text-lg lg:text-xl ">Bank Details</h1>
                 </div>
 
                 <form method="post" action="/bank_details" id="bank_details_form" enctype="multipart/form-data" class="grid grid-cols-1 gap-2 sm:grid sm:grid-cols-2 sm:gap-3">
+
+                    <div class="flex flex-col gap-0.5" id="account_number-div">
+                        <label for="account_number">Account Holder</label>
+                        <select name="account_holder" id="" class="rounded-lg  focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md">
+                            <option value="Self">Self</option>
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Guardian">Guardian</option>
+                        </select>
+                    </div>
 
                     <div class="flex flex-col gap-0.5" id="account_holder_name-div">
                         <label for="name_as_in_passbook">Name as in Passbook</label>
@@ -91,36 +103,31 @@
                         <input required   type="text" name="branch" id="branch" placeholder="Kumbakonam" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md">
                     </div>
 
+                    <div class="flex flex-col gap-0.5" id="phone_number-div">
+                        <label for="linked_phone_num">Phone Number<span class="text-xs">(linked with the account)</span></label>
+                        <input required maxlength="10"  type="text" name="linked_phone_num" id="phone_number" placeholder="9876543210" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md">
+                        <small id="phone_num_error_msg" class="text-red-500 hidden"></small>
+                    </div>
+
+
                     <div class="flex flex-col gap-0.5" id="upi_id-div">
                         <label for="upi_id">UPI Id<small>(optional)</small></label>
                         <input type="text" name="upi_id" id="upi_id" placeholder="arjun@bob" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md">
                     </div>
+
+                    <div class="flex flex-col gap-0.5" id="upi_num-div">
+                        <label for="upi_num">Gpay/Phonepe/Paytm Mobile Number</label>
+                        <input type="text" name="upi_num" id="upi_num" maxlength="10" placeholder="9876543210" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md">
+                        <small id="upi_num_error_msg" class="text-red-500 hidden"></small>
+                    </div>
                     
-                    <div class="flex flex-col gap-0.5" id="account_number-div">
-                        <label for="account_number">Account Holder</label>
-                        <select name="account_holder" id="" class="rounded-lg  focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md">
-                            <option value="Self">Self</option>
-                            <option value="Father">Father</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Guardian">Guardian</option>
-                        </select>
-                    </div>
-        
-
-                    <div class="flex flex-col gap-0.5" id="phone_number-div">
-                        <label for="linked_phone_num">Phone Number<span class="text-xs">(linked)</span></label>
-                        <input required maxlength="10"  type="text" name="linked_phone_num" id="phone_number" placeholder="9876543210" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md">
-                        <small id="phone_num_error_msg" class="text-red-500 hidden"></small>
-                    </div>
- 
-
-        
-                    <div class="flex flex-col gap-0.5" id="upi_id-div">
-                        <label for="email_id">Email Id</label>
-                        <input required  type="text" name="email_id" id="email_id" placeholder="arjun@gmail.com" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md">
-                    </div>
+    
+                    <!-- <div class="flex flex-col gap-0.5" id="upi_id-div"> -->
+                        <!-- <label for="email_id">Email Id</label> -->
+                        <input required  type="email" value="{{entered_email_id}}" name="email_id" id="email_id" placeholder="arjun@gmail.com" class="rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md hidden">
+                    <!-- </div> -->
                   
-                    <input  type="text" value="{{entered_aadhar_num}}" name="aadhar_num" maxlength="12" id="aadhar_num" placeholder="" class=" rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md hidden">
+                    <!-- <input  type="text" value="{{entered_aadhar_num}}" name="aadhar_num" maxlength="12" id="aadhar_num" placeholder="" class=" rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md hidden"> -->
                      <!-- <input  type="text" value="{{id}}" name="id"  id="id" placeholder="" class=" rounded-lg focus:ring-1 focus:ring-indigo-600  focus:shadow-gray-900 focus:shadow-md hidden"> -->
                      
 
@@ -132,41 +139,44 @@
 
                 {% endif %}
                 
-                
-
             </div>
         </div> 
             {% if not verification_status %}
                 <div class="flex flex-col gap-1 text-lg font-mono mt-10">
-                    <a href="/verify_admin" class="p-2 rounded-xl rounded-lg  text-white  bg-indigo-500">Admin view</a>
+                    <a href="/verify_admin" class="px-4 py-2 rounded-lg text-white  bg-indigo-500">Admin view</a>
                 </div>
             {% endif %}
+    </div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             
-            const aadharVerifyForm = document.getElementById("aadhar_verify_form");
+            const emailVerifyForm = document.getElementById("email_verify_form");
             const bankDetailForm = document.getElementById("bank_details_form");
             
-            const aadharField  = document.getElementById("aadhar_num");
             const phoneNumberField = document.getElementById("phone_number");
-            
-            const phoneNumberErrorMsgField = document.getElementById("phone_num_error_msg");
-            const aadharNumErrorMsgField = document.getElementById("aadhar_num_error_msg");
-            
-            const phoneNumberRegEx = /^[6-9]\d{9}$/; // Example for 10-digit Indian phone numbers starting with 6-9
-            const aadharNumberRegex = /^\d{12}$/;
+            const emailField = document.getElementById("email_id");
+            const upiNumberField = document.getElementById("upi_num");
 
-            const aadharVerifySubmitButton = document.getElementById("aadhar_verify_submit_button");
+
+            const phoneNumberErrorMsgField = document.getElementById("phone_num_error_msg");
+            const upiNumberErrorMsgField = document.getElementById("upi_num_error_msg");
+            const phoneNumberRegEx = /^[6-9]\d{9}$/; // Example for 10-digit Indian phone numbers starting with 6-9
+            const emailVerifySubmitButton = document.getElementById("email_verify_submit_button");
+            
             //value from jinja
-            const enteredAadharNum = "{{entered_aadhar_num | default('')}}";
+            const enteredEmailId = "{{entered_email_id | default('')}}";
             const verificationStatus = {{verification_status | lower}};
 
             
-            if (enteredAadharNum){
-                aadharField.value = enteredAadharNum;
+            if (enteredEmailId){
+                emailField.value = enteredEmailId;
                 if (verificationStatus){
-                    aadharField.disabled = true;
-                    aadharVerifySubmitButton.disabled = true;
+                    emailField.disabled = true;
+                    emailVerifySubmitButton.disabled = true;
+
+                    setTimeout(() => {
+                        bankDetailForm.scrollIntoView({ behavior: "smooth", block: "start" });}, 500
+                    );    
                 }
             }
 
@@ -174,6 +184,11 @@
                 if (!phoneNumberRegEx.test(phoneNumberField.value.trim())){
                     event.preventDefault();
                     phoneNumberField.focus();
+                }
+
+                if (!phoneNumberRegEx.test(upiNumberField.value.trim())){
+                    event.preventDefault();
+                    upiNumberField.focus();
                 }
 
                });
@@ -187,6 +202,17 @@
                     // clear the error message.
                     phoneNumberErrorMsgField.textContent = "";
                     phoneNumberErrorMsgField.classList.add("hidden");
+                }
+            });
+
+            upiNumberField.addEventListener("input", () => {
+                if (!phoneNumberRegEx.test(upiNumberField.value.trim())){
+                    upiNumberErrorMsgField.textContent = "Enter valid mobile number.";
+                    upiNumberErrorMsgField.classList.remove("hidden");
+                }
+                else{
+                    upiNumberErrorMsgField.textContent = "";
+                    upiNumberErrorMsgField.classList.add("hidden");
                 }
             });
 
