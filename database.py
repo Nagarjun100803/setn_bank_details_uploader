@@ -6,13 +6,13 @@ from config import settings
 
 
 # Connection parameters.
-# connection_params: dict[str, Any] = {
-#     # 'database': 'souglobal',
-#     'database': 'setn',
-#     'password': 'arju@123',
-#     'user': 'postgres', 
-#     'cursor_factory': RealDictCursor  
-# }
+connection_params: dict[str, Any] = {
+    # 'database': 'souglobal',
+    'database': 'setn',
+    'password': 'arju@123',
+    'user': 'postgres', 
+    'cursor_factory': RealDictCursor  
+}
 
 connection_params_: dict = {
     'database': settings.db_name,
@@ -88,9 +88,9 @@ database_table: str = """
             email_id varchar(100) not null unique,
             phone_num varchar,
             college_name varchar not null,
-            application_num integer
-
-                
+            application_num integer,
+            semester integer,
+            course varchar
         );
 
 

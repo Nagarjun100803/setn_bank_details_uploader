@@ -121,7 +121,7 @@ def send_remainder():
         
         email_ids = list(pd.DataFrame(not_uploaded_students)['email_id'].values)
         
-        print(email_ids)
+        print(f"Beneficiaris email id who are not uploaded their bank details {email_ids}")
         
         send_email(recipients=email_ids, subject = "Bank Details Upload - Reg")
     else:
