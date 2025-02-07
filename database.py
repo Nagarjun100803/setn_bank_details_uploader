@@ -106,6 +106,7 @@ database_table: str = """
             linked_phone_num varchar not null,
             upi_id varchar,
             upi_num varchar(12) not null,
+            fee_per_sem integer not null,
             created_at timestamp not null default 'now()'
         );
 

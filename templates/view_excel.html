@@ -67,7 +67,8 @@
                                 <th class="p-3 border">Linked Phone No</th>
                                 <th class="p-3 border">Gpay/Phonpe/Paytm</th>
                                 <th class="p-3 border">UPI ID</th>
-                                <th class="p-3 border">Created At</th>
+                                <th class="p-3 border">Semester Fee</th>
+                                <th class="p-3 border">Timestamp</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,6 +91,7 @@
                                 <td class="p-3 border">{{ record.linked_phone_num }}</td>
                                 <td class="p-3 border">{{ record.upi_num }}</td>
                                 <td class="p-3 border">{{ record.upi_id }}</td>
+                                <td class="p-3 border">{{ record.fee_per_sem }}</td>
                                 <td class="p-3 border">{{ record.created_at.strftime('%Y-%m-%d') }}</td>
                             </tr>
                             {% endfor %}

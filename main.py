@@ -118,10 +118,11 @@ def send_remainder():
         
         if not not_uploaded_students:
             print("All Students uploaded their bank details.")
+            return 
         
         email_ids = list(pd.DataFrame(not_uploaded_students)['email_id'].values)
         
-        print(f"Beneficiaris email id who are not uploaded their bank details {email_ids}")
+        print(f"There are {len(email_ids)} beneficiaries not uploaded their bank details and the email ids are -> {email_ids}")
         
         send_email(recipients=email_ids, subject = "Bank Details Upload - Reg")
     else:
@@ -149,6 +150,7 @@ class BankDetails(BaseModel):
     account_holder: Literal["Self", "Father", "Mother", "Guardian"]
     upi_id: str | None
     upi_num: str
+    fee_per_sem: int
     
 
 
@@ -249,16 +251,16 @@ def create_bank_details(
         insert into bank_details(
             name_as_in_passbook, account_number, ifsc_code,
             bank_name, branch, account_holder, linked_phone_num, email_id,
-            upi_num, upi_id
+            upi_num, upi_id, fee_per_sem
         )
         values(
             %(name_as_in_passbook)s, %(account_number)s, %(ifsc_code)s,
             %(bank_name)s, %(branch)s, %(account_holder)s, %(linked_phone_num)s, %(email_id)s,
-            %(upi_num)s, %(upi_id)s
+            %(upi_num)s, %(upi_id)s, %(fee_per_sem)s
         );
     """
     vars = bank_details.model_dump()
-    print(create_bank_detail_sql)
+    # print(create_bank_detail_sql)
     # print(vars)
     new_record: None = execute_sql_commands(create_bank_detail_sql, vars)
     context.update({"message": "Bank details uploaded successfully."})
@@ -323,7 +325,7 @@ def download_entered_bank_details(request: Request):
     records = get_entered_bank_details()
     
     if not records:
-        return templates.Templateresponse("message.html", {
+        return templates.TemplateResponse("message.html", {
             "request": request, "message": "Sorry, No records to show",
             "message_type": "Info"
         })
@@ -347,4 +349,8 @@ def download_entered_bank_details(request: Request):
     )
 
 
+@app.get("/send_email")
+def send_email_manually():
+    """Helper function will be used when the scheduler is not working."""
+    send_remainder()
 
