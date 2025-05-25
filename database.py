@@ -11,7 +11,7 @@ connection_params: dict[str, Any] = {
     'database': 'setn',
     'password': 'arju@123',
     'user': 'postgres', 
-    'cursor_factory': RealDictCursor  
+    'cursor_factory': RealDictCursor   
 }
 
 connection_params_: dict = {
@@ -78,40 +78,61 @@ def execute_sql_commands(
     return record
 
 
-database_table: str = """
+# database_table: str = """
         
-        create table if not exists beneficiaries(
+#         create table if not exists beneficiaries(
             
-            full_name varchar not null,
-            aadhar_num varchar(12) not null,
-            status varchar(20) default 'demo',
-            email_id varchar(100) not null unique,
-            phone_num varchar,
-            college_name varchar not null,
-            application_num integer,
-            semester integer,
-            course varchar
-        );
+#             full_name varchar not null,
+#             aadhar_num varchar(12) not null,
+#             status varchar(20) default 'demo',
+#             email_id varchar(100) not null unique,
+#             phone_num varchar,
+#             college_name varchar not null,
+#             application_num integer,
+#             semester integer,
+#             course varchar
+#         );
 
 
-        create table if not exists bank_details(
+#         create table if not exists bank_details(
             
-            email_id varchar references beneficiaries(email_id) not null, 
-            account_holder varchar(30) not null,
-            name_as_in_passbook varchar not null,
-            account_number varchar not null,
-            ifsc_code varchar not null,
-            bank_name varchar not null,
-            branch varchar not null, 
-            linked_phone_num varchar not null,
-            upi_id varchar,
-            upi_num varchar(12) not null,
-            fee_per_sem integer not null,
-            created_at timestamp not null default 'now()'
-        );
+#             email_id varchar references beneficiaries(email_id) not null, 
+#             account_holder varchar(30) not null,
+#             name_as_in_passbook varchar not null,
+#             account_number varchar not null,
+#             ifsc_code varchar not null,
+#             bank_name varchar not null,
+#             branch varchar not null, 
+#             linked_phone_num varchar not null,
+#             upi_id varchar,
+#             upi_num varchar(12) not null,
+#             fee_per_sem integer not null,
+#             created_at timestamp not null default now()
+#         );
+
+# """
+
+database_table: str = """
+    CREATE TABLE IF NOT EXISTS student_bank_details (
+        id SERIAL PRIMARY KEY, 
+        email_id VARCHAR(255) NOT NULL,
+        mobile_number VARCHAR(15) NOT NULL,
+        aadhaar_number CHAR(12) NOT NULL,
+        full_name TEXT NOT NULL,
+        account_holder VARCHAR NOT NULL,
+        account_holder_name TEXT NOT NULL,
+        account_number VARCHAR(50) NOT NULL,
+        ifsc_code CHAR(11) NOT NULL,
+        bank_name TEXT NOT NULL,
+        bank_branch_address TEXT NOT NULL,
+        bank_mobile_number VARCHAR(15) NOT NULL,
+        upi_number VARCHAR(15),
+        semester_fee NUMERIC(10, 2),
+        passbook_scan BYTEA NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+);
 
 """
-
 def initiate_database_tables(tables_list: str):
     conn =  db.getconn()
     cur = conn.cursor()

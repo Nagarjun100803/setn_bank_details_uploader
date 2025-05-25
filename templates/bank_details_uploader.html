@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bank Details Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-violet-100">
+
+    <div class=" min-h-screen flex items-center justify-center py-10 px-4">
+         <form method="post" enctype="multipart/form-data" class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 space-y-6 border-2 border-violet-300">
+    
+            <!-- Title -->
+            <div class="space-y-4">
+            <h2 class="text-3xl font-bold text-indigo-700">Student Bank Details Form</h2>
+
+            <!-- Instructions -->
+            <div class="bg-amber-100 border-l-4 border-amber-500 p-4 text-sm text-amber-800 rounded-md space-y-2">
+                <p><strong>Instructions:</strong></p>
+                <ul class="list-disc list-inside space-y-1">
+                <li>Write the name with initials exactly as in the bank records (if the initials are before or after the name, write exactly as per the passbook. If there are no dots in between the initials don't put dot. If there is a dot between the initials put dot)</li>
+                <li>Write IFSC Code correctly - (Don't put alphabetical O instead of numerical zero 0 please check)</li>
+                <li>Write the account number exactly as in the passbook - (don't omit the zeros in the prefix.)</li>
+                <li>If the payment is made online based on the bank details furnished and if it returns citing any error, payment will not be made again. The correctness of the particulars rests with the applicants.</li>
+                </ul>
+            </div>
+            </div>
+
+            <!-- Grid Fields -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Email -->
+            <div>
+                <label for="email_id" class="block text-sm font-semibold text-slate-700">Email</label>
+                <input type="email" name="email_id" id="email_id" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- Mobile number -->
+            <div>
+                <label for="mobile_number" class="block text-sm font-semibold text-slate-700">Mobile number</label>
+                <input type="tel" name="mobile_number" id="mobile_number" maxlength="10" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- Aadhaar number -->
+            <div>
+                <label for="aadhaar_number" class="block text-sm font-semibold text-slate-700">Aadhaar number</label>
+                <input type="text" name="aadhaar_number" id="aadhaar_number" required maxlength="12"
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- Name as in college records -->
+            <div>
+                <label for="full_name" class="block text-sm font-semibold text-slate-700">Name as in college records</label>
+                <input type="text" name="full_name" id="full_name" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- Account Holder eg. Self, Father, Mother, Guardian -->
+            <div>
+                <label for="account_holder" class="block text-sm font-semibold text-slate-700">Account Holder</label>
+                <select name="account_holder" id="account_holder" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                <option value="Self">Self</option>
+                <option value="Father">Father</option>
+                <option value="Mother">Mother</option>
+                <option value="Guardian">Guardian</option>
+                </select>
+            </div>
+
+            <!-- Name of the account holder as in bank passbook -->
+            <div>
+                <label for="account_holder_name" class="block text-sm font-semibold text-slate-700">Name of the account holder as in bank passbook</label>
+                <input type="text" name="account_holder_name" id="account_holder_name" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+
+            <!-- Bank account number -->
+            <div>
+                <label for="account_number" class="block text-sm font-semibold text-slate-700">Bank account number</label>
+                <input type="text" name="account_number" id="account_number" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- IFSC Code -->
+            <div>
+                <label for="ifsc_code" class="block text-sm font-semibold text-slate-700">IFSC Code</label>
+                <input type="text" name="ifsc_code" id="ifsc_code" required
+                class="mt-1 w-full uppercase rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- Bank Name -->
+            <div>
+                <label for="bank_name" class="block text-sm font-semibold text-slate-700">Bank Name</label>
+                <input type="text" name="bank_name" id="bank_name" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- Bank Branch Address -->
+            <div class="md:col-span-1">
+                <label for="bank_branch_address" class="block text-sm font-semibold text-slate-700">Bank Branch Address</label>
+                <textarea name="bank_branch_address" id="bank_branch_address" rows="2" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"></textarea>
+            </div>
+
+            <!-- Mobile number as in bank records -->
+            <div>
+                <label for="bank_mobile_number" class="block text-sm font-semibold text-slate-700">Mobile number as in bank records</label>
+                <input type="tel" name="bank_mobile_number" id="bank_mobile_number" maxlength="10" required
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- UPI Phone number -->
+            <div>
+                <label for="upi_phone_number" class="block text-sm font-semibold text-slate-700">GPay/PhonePe/PayTM/BHIM No</label>
+                <input type="tel" name="upi_phone_number" id="upi_phone_number" maxlength="10"
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <div>
+                <label for="semester_fee" class="block text-sm font-semibold text-slate-700">Semester Fee <small>(Optional)</small></label>
+                <input name="semester_fee" id="semester_fee" type="number" min="0" value="0"
+                class="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none" />
+            </div>
+
+            <!-- Upload Passbook Scan -->
+            <div class="md:col-span-1">
+                <label for="passbook_scan" class="block text-sm font-semibold text-slate-700">Scan copy of first page of passbook</label>
+                <input type="file" name="passbook_scan" id="passbook_scan" accept=".pdf" required
+                class="mt-1 w-full file:rounded-md file:border file:border-slate-300 file:px-4 file:py-2 file:bg-violet-200 file:text-sm file:font-medium file:text-violet-800 hover:file:bg-violet-300 focus:outline-none" />
+            </div>
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="text-right">
+            <button type="submit"
+                class="inline-flex items-center px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                Submit
+            </button>
+            </div>
+        </form>
+    </div>
+ 
+    <div class="mt-2 text-white text-center mb-6">
+        <a href="/verify_admin" class="bg-gray-800 p-4  rounded-lg">Admin View</a>
+    </div>
+
+</body>
+</html>
