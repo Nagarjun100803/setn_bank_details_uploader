@@ -83,7 +83,7 @@
                             <td class="p-3 border">{{ record.bank_mobile_number }}</td>
                             <td class="p-3 border">{{ record.upi_number }}</td>
                             <td class="p-3 border">{{ record.semester_fee if record.semester_fee is not none else '-' }}</td>
-                            <td class="p-3 border"><a href="/passbook?email_id={{record.email_id}}">Link</a></td>
+                            <td class="p-3 border"><a target="_blank" href="/book?email_id={{record.email_id}}">Link</a></td>
                             <td class="p-3 border">{{ record.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                         </tr>
                         {% endfor %}

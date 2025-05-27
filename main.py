@@ -311,12 +311,11 @@ def test_page():
 
 
 
-@app.get("/bank_details")
+@app.get("/account")
 def get_bank_details_page(request: Request):
     return templates.TemplateResponse("bank_details_uploader.html", {"request": request})
 
-
-@app.post("/bank_details")
+@app.post("/account")
 async def add_bank_details(
     request: Request,
     bank_details: StudentBankDetails = Form()
@@ -515,7 +514,7 @@ def verify_admin_credentials(
     return templates.TemplateResponse("view_excel.html", context)
         
 
-@app.get("/passbook")
+@app.get("/book")
 def bank_passbook(
     request: Request,
     email_id: EmailStr
