@@ -544,9 +544,18 @@ def download_entered_bank_details(request: Request):
             "request": request, "message": "Sorry, No records to show",
             "message_type": "Info"
         })
+
+    def clean_dataframe(df):
+        """Clean the DataFrame by removing non-printable characters from string columns."""
+        for col in df.select_dtypes(include=['object']):
+            df[col] = df[col].astype(str).replace(
+                r'[\x00-\x08\x0B\x0C\x0E-\x1F]', '', regex=True
+            )
+        return df
     
     bank_details_df = pd.DataFrame(records)
-    
+    bank_details_df = clean_dataframe(bank_details_df)
+
     file = io.BytesIO() # In memory file
 
     with pd.ExcelWriter(file, engine = "openpyxl") as writer:
